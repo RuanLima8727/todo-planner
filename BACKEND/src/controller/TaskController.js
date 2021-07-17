@@ -1,4 +1,15 @@
+const { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } = require("date-fns");
 const TaskModel = require("../model/TaskModel");
+
+//Eu sei que é estranho usar o model aqui para executar os comandos do mongo
+//O model é um modelo, não deveria ser usado apenas como modelo? porque estou usando 
+//Para executar códigos no mongo?
+//Lembre-se que o controller entra em contato com o model e diz a ele o que fazer
+//Essa é a maneira, na prática, em que esse contato é feito e que as ordens são dadas
+//Então o model vai servir como um modelo, e também vai servir como uma ferramenta de 
+//Acionamento para o controller
+
+const current = new Date()
 
 class TaskController {
     async create (req, res) {
@@ -10,16 +21,99 @@ class TaskController {
     
     async update (req, res) {
        await TaskModel.findByIdAndUpdate({'_id': req.params.id}, req.body, {new:true})
-        .then((response)=>{return res.status(200).json(response)})
-        .catch((error) => {return res.status(500).json(error)})
+            .then((response)=>{return res.status(200).json(response)})
+            .catch((error) => {return res.status(500).json(error)})
     }
 
     async all (req, res) {
         await TaskModel.find({macaddress:{'$in':req.body.macaddress}})
+            .sort('when')
+            .then((response)=>{return res.status(200).json(response)})
+            .catch((error)=>{return res.status(500).json(error)})
+    }
+
+    async show (req, res) {
+        await TaskModel.findById(req.params.id)
+        .then((response)=>{
+            if (response) {
+               return res.status(200).json(response)
+            } 
+
+            else {
+               return res.status(404).json({error:'A tarefa não foi encontrada'})
+            }
+        })
+        .catch((error)=>{res.status(500).json(error)})
+    }
+
+    async delete (req, res) {
+        await TaskModel.deleteOne({'_id':req.params.id})
+        .then((response)=>{return res.status(200).json(response)})
+        .catch((error)=>{return res.status(500).json(error)})
+    }
+
+    async done (req, res) {
+        await TaskModel.findByIdAndUpdate(
+            {'_id':req.params.id},
+            {'done':req.params.done},
+            {new:true}
+        )
+        .then((response)=>{res.status(200).json(response)})
+        .catch((error)=>{res.status(500).json(error)})
+    }
+
+    async late (req, res) {
+        await TaskModel.find({
+            'when' : {'$lt': current },
+            'macaddress' : {'$in' : req.body.macaddress}
+        })
+        .sort('when')
+        .then((response)=>{res.status(200).json(response)})
+        .catch((error)=>{res.status(500).json(error)})
+    }
+
+    async today (req, res) {
+        await TaskModel.find({
+            'macaddress' : {'$in' : req.body.macaddress},
+            'when' : {'$gte' : startOfDay(current), '$lt' : endOfDay(current)}
+        })
+        .sort('when')
+        .then((response)=>{res.status(200).json(response)})
+        .catch((error)=>{res.status(500).json(error)})
+    }
+
+    async week (req, res) {
+        await TaskModel.find({
+            'macaddress' : {'$in' : req.body.macaddress},
+            'when' : {'$gte' : startOfWeek(current), '$lt' : endOfWeek(current)}
+        })
+        .sort('when')
+        .then((response)=>{res.status(200).json(response)})
+        .catch((error)=>{res.status(500).json(error)})
+    }
+
+    async month (req, res) {
+        await TaskModel.find({
+            'macaddress' : {'$in' : req.body.macaddress},
+            'when' : {'$gte' : startOfMonth(current), '$lt' : endOfMonth(current)}
+        })
+        .sort('when')
+        .then((response)=>{res.status(200).json(response)})
+        .catch((error)=>{res.status(200).json(error)})
+    }
+
+    async year (req, res) {
+        await TaskModel.find({
+            'macaddress' : {'$in' : req.body.macaddress},
+            'when' : {'$gte' : startOfYear(current), '$lt' : endOfYear(current)}
+        })
         .sort('when')
         .then((response)=>{res.status(200).json(response)})
         .catch((error)=>{res.status(500).json(error)})
     }
 }
+
+    
+    
 
 module.exports = new TaskController()
