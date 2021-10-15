@@ -1,11 +1,12 @@
 import React from 'react';
-
+import Header from '../../components/Header'
+import * as S from './styles'
 
 function Home(){
     return (
-        <h1>
-            Magacoo
-        </h1>
+        <S.Container>
+            <Header/>
+        </S.Container>
     )
 }
 
