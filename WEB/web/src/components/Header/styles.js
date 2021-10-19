@@ -28,10 +28,9 @@ justify-content: flex-end;
 align-items: center;
 width: 50%;
 //background-color:blue;
-padding-right: 3%;
 a{
     font-weight: bold;
-    padding-right: 7%;
+    padding-right: 3%;
     color: #FDFFFC;
     &:hover {
         color: #0C8346;
@@ -39,7 +38,7 @@ a{
 
    &#notification{ 
     img {
-        width: 30%;
+        width: 40px;
     }
     span {
         background-color:  #FDFFFC;
