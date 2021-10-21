@@ -2,28 +2,33 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 display: flex;
-height: 105px;
-width: 215px;
+height: 80px;
+width: 210px;
 border-radius: 10px;
-background-color:#161313;
+cursor: pointer;
+background-color: ${props => props.actived ? '#0C8346' : '#161313'};
+:hover {
+    background-color: #0C8346;
+}
 `
 
 export const FilterCard = styled.div`
 display: flex;
-justify-content: space-between;
+flex-direction: column;
+justify-content: space-around;
 width: 100%;
 color: #FFF;
-`
-export const FilterIcon = styled.div`
-margin:5% 0px 0px 5%;
-height:25px;
-`
+padding: 5%;
 
-export const FilterText = styled.div`  
-display:flex;
-flex-direction:column;
-justify-content: flex-end;
-margin:0% 5% 5% 0%;
-font-size: 20px;
-color: #FDFFFC;
+img{
+    height:25px;
+    width: 25px;
+}
+
+p{
+    font-size: 20px;
+    color: #FDFFFC;
+    align-self: flex-end;
+    font-weight: bold;
+}
 `
