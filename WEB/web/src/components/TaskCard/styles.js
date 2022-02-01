@@ -25,6 +25,7 @@ flex-direction: column;
 align-items: center;
 height: 80%;
 padding-top: 5%;
+color:#161313;
 img {
     width: 80px;
     padding-bottom: 2%;

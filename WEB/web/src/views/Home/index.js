@@ -5,6 +5,7 @@ import FilterCard from '../../components/FilterCard'
 import TaskCard from '../../components/TaskCard';
 import * as S from './styles';
 import api from '../../services/api';
+import { Link } from 'react-router-dom';
 
 
 function Home() {
@@ -12,22 +13,30 @@ function Home() {
 
     const [filterActived, setFilterActived] = useState('all');
     const [tasks, setTasks] = useState([]);
+    const [lateCount, setLateCount] = useState('0');
 
     async function loadTasks() {
        await api.get(`/task/filter/${filterActived}/11:11:11:11:11:11`)
        .then((response) => {
            setTasks(response.data)
        })
-
     }
-
+    async function loadLate() {
+        await api.get(`/task/filter/late/11:11:11:11:11:11`)
+        .then((response)=>{
+            setLateCount(response.data.length)
+        })
+    }
+    function lateRender() {
+        setFilterActived('late')
+    }
      useEffect(() => { 
-        loadTasks()    
+        loadTasks(), loadLate()   
     }, [filterActived])
 
     return (
         <S.Container>
-            <Header />
+            <Header lateCount={lateCount} lateRender={lateRender}/>
             <S.FilterCardContainer>
                 <button type='button' onClick={()=>{setFilterActived('all')}}>
                     <FilterCard title='Todos' filterText="Todos" actived={filterActived == 'all'}/>
@@ -46,11 +55,16 @@ function Home() {
                 </button>
             </S.FilterCardContainer>
             <S.Title>
-                <h3>Tarefas</h3>
+                <h3>{filterActived == 'late'? 'Tarefas Atrasadas': 'Tarefas' }</h3>
             </S.Title>
             <S.TaskCardContainer tasksData={tasks}>
-                {tasks.map((task)=>{
-                    return <TaskCard taskData={task} key={task._id}/>
+                {
+                   
+                        tasks.map((task)=>{return (
+                        <Link to={`/task/${task._id}`} key={task._id}>
+                            <TaskCard taskData={task} key={task._id}/>
+                        </Link>
+                        )
                 })}
             </S.TaskCardContainer>
             

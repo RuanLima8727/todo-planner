@@ -12,13 +12,13 @@ border-bottom: solid #0C8346 5px;
 export const LeftSide = styled.div`
 display:flex;
 width: 50%;
-//background-color:red;
 padding-left: 3%;
 color: #FDFFFC;
 align-items: center;
 
-img {
+#logo {
     height: 70%;
+    cursor: pointer;
 }
 `
 
@@ -27,24 +27,27 @@ display: flex;
 justify-content: flex-end;
 align-items: center;
 width: 50%;
-//background-color:blue;
-a{
+a, button{
     font-weight: bold;
     padding-right: 3%;
     color: #FDFFFC;
+    cursor: pointer;
     &:hover {
         color: #0C8346;
     }
+}
+#notification{ 
+        background-color:#161313;
+        border: none;
 
-   &#notification{ 
     img {
         width: 40px;
     }
     span {
         background-color:  #FDFFFC;
         color: #161313;
-        padding: 3px 7px;
-        border-radius: 50%;
+        padding: 1px 7px;
+        border-radius: 60%;
         position: relative;
         top: -20px;
         right: 12px;
@@ -52,7 +55,7 @@ a{
     &:hover {
             opacity:0.5;
         }
-    }
+    
 }
 
 `

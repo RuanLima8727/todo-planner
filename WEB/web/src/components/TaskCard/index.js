@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import * as S from './styles';
-import TaskIcon from '../../assets/food.png';
+import typeIcons from '../../utils/typeIcons';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
@@ -10,8 +10,8 @@ function TaskCard(props) {
     return(
         <S.Container>
             <S.IconContainer>
-                <img src={TaskIcon} alt="Icone da Tarefa em questão" />
-                <h3>{props.taskData.tittle}</h3>
+                <img src={typeIcons[props.taskData.type]} alt="Icone da Tarefa em questão" />
+                <h3>{props.taskData.title}</h3>
             </S.IconContainer>
             <S.InfoContainer>
                 <p>{date}</p>
@@ -23,7 +23,6 @@ function TaskCard(props) {
 
 TaskCard.propTypes = {
     taskData: PropTypes.object   
-
-  }
+}
 
 export default TaskCard;
