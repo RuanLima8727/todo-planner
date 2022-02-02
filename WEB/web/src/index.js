@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import Home from './views/Home';
+import Routes from './routes/index';
 
 ReactDOM.render(
-    <Home />,
+    <Routes/>,
   document.getElementById('root')
 );
 

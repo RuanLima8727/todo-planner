@@ -6,7 +6,7 @@ const TaskController = require("../controller/TaskController")
 const TaskValidation = require("../middlewares/TaskValidation")
 
 router.post('/', TaskValidation, TaskController.create)
-router.put('/:id', TaskValidation, TaskController.update)
+router.put('/:id', TaskValidation, TaskController.update) 
 router.put('/:id/:done', TaskController.done)
 router.get('/:id', TaskController.show)
 router.get('/filter/all/:macaddress',   TaskController.all)

@@ -2,7 +2,7 @@ const TaskModel = require('../model/TaskModel')
 const {isPast} = require('date-fns')
 
 const TaskValidation = async function(req, res, next) {
-    const {macaddress, type, tittle, description, when} = req.body;
+    const {macaddress, type, title, description, when} = req.body;
 
     if(!macaddress) {
         return res.status(400).json({error:"McAdress está vazio"})
@@ -10,7 +10,7 @@ const TaskValidation = async function(req, res, next) {
     else if (!type) {
         return res.status(400).json({error:"Tipo (Type) está vazio"})
     }
-    else if (!tittle) {
+    else if (!title) {
         return res.status(404).json({error:"Titulo está vazio"})
     }
     else if (!description) {
