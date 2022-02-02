@@ -1,14 +1,6 @@
 const { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } = require("date-fns");
 const TaskModel = require("../model/TaskModel");
 
-//Eu sei que é estranho usar o model aqui para executar os comandos do mongo
-//O model é um modelo, não deveria ser usado apenas como modelo? porque estou usando 
-//Para executar códigos no mongo?
-//Lembre-se que o controller entra em contato com o model e diz a ele o que fazer
-//Essa é a maneira, na prática, em que esse contato é feito e que as ordens são dadas
-//Então o model vai servir como um modelo, e também vai servir como uma ferramenta de 
-//Acionamento para o controller
-
 const current = new Date()
 
 class TaskController {
