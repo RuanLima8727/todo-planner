@@ -9,8 +9,7 @@ import { Link } from 'react-router-dom';
 
 
 function Home() {
-
-
+    
     const [filterActived, setFilterActived] = useState('all');
     const [tasks, setTasks] = useState([]);
     const [lateCount, setLateCount] = useState('0');
@@ -58,16 +57,15 @@ function Home() {
                 <h3>{filterActived == 'late'? 'Tarefas Atrasadas': 'Tarefas' }</h3>
             </S.Title>
             <S.TaskCardContainer tasksData={tasks}>
-                {
-                   
-                        tasks.map((task)=>{return (
+                {tasks.map((task) => {
+                    return (
                         <Link to={`/task/${task._id}`} key={task._id}>
                             <TaskCard taskData={task} key={task._id}/>
                         </Link>
-                        )
-                })}
+                    )
+                })
+                }
             </S.TaskCardContainer>
-            
             <Footer />
         </S.Container>
     )

@@ -7,11 +7,14 @@ import calendar from '../../assets/calendar.png';
 import clock from '../../assets/clock.png';
 import api from '../../services/api';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
+import { Redirect } from 'react-router-dom';
 //import { set } from 'date-fns';
 
 
 function Task ({match}) {
 
+    const [redirect, setRedirect] = useState();
     const [lateCount, setLateCount] = useState('0');
    
     const [done, setDone] = useState(false);
@@ -32,29 +35,42 @@ function Task ({match}) {
     async function loadTaskDetails() {
         await api.get(`/task/${match.params.id}`)
         .then(response => {
+            console.log(response.data)
             setType(response.data.type)
             setTitle(response.data.title)
             setDescription(response.data.description)
-            setDate(new Date(response.data.date))
-            setHour(new Date(response.data.hour))
+            setDate(format(new Date(response.data.when),'yyyy-MM-dd'))
+            setHour(format(new Date(response.data.when), 'HH:MM'))
         })
     }
-
     async function save() {
-        await api.post(
-            '/task',
-            {
+        if( match.params.id){
+            await api.put(`/task/${match.params.id}`,{
                 macaddress,
                 type,
                 title,
                 description,
                 when : `${date}T${hour}:00.000`
             }
-        ).then(()=>{alert('TAREFA CADASTRADA COM SUCESSO')})
+            ).then(setRedirect(true))
+        }
+        else {
+            await api.post(
+                '/task',
+                {
+                    macaddress,
+                    type,
+                    title,
+                    description,
+                    when : `${date}T${hour}:00.000`
+                }
+            ).then(setRedirect(true))
+        }
     }
 useEffect(()=>{loadLate(), loadTaskDetails()}, []);
 return (
     <S.Container>
+        {redirect && <Redirect to='/' />}
         <Header lateCount={lateCount}/>
         <S.ContentContainer>        
             <S.Icons>
@@ -77,7 +93,6 @@ return (
                     <label htmlFor="fname">Título</label>
                     <input type="text" id="fname" name="fname" value={title}
                         onChange={(e)=>{setTitle(e.target.value)}}/>
-
                     <label htmlFor="lname">Descrição</label>
                     <textarea type="textArea" id="lname" name="lname" value={description}
                         onChange={(e)=>{setDescription(e.target.value)}}/>
